@@ -8,14 +8,21 @@
                 <div class="card-header">{{ __('Posts') }}</div>
 
                 <div class="card-body">
-                    <form method="GET" action="{{ route('allPosts') }}">
+                    <form method="GET" action="{{ route('allCpPosts') }}">
                         @csrf
                             <div class="form-group">
-                                <input type="search" class="form-control" name="search">
-                                <span class="form-group-btn">
-                                    <button type="submit" class="btn btn-primary mt-2">Search</button>
-                                    <a href="{{ route('allPosts') }}" class="btn btn-dark mt-2">Back to all posts</a>
-                                </span>
+
+                                    <select class="form-control form-control-sm mt-2" id="SelectCategory">
+                                        @foreach ($getCategories as $cat)
+                                            <option name="search">{{ $cat }}</option>
+                                        @endforeach
+                                    </select>
+
+                                    <span class="form-group-btn">
+                                        <button type="submit" class="btn btn-primary mt-2" id="btn-search-select">Search</button>
+                                        <a href="{{ route('allCpPosts') }}" class="btn btn-dark mt-2">Back to all posts</a>
+                                    </span>
+
                             </div>
                             @if (count($posts) < 1 && empty($search) === !1)
                             <div class="form-group row">
@@ -35,14 +42,21 @@
                                     </div>      
                                 </div>  
                             @endif
+
                         @foreach ($posts as $post)
                         <div class="form-group row">
                             <div class="col-md-12">
                              <h1>{{ $post->title }}</h1>
                                 <div> 
                                     <h4>{{ $post->description }}</h4>
-                                    <small> Created at {{$post->created_at}} </small>
-                                    <br/><small> Category: {{$post->category}} </small>
+                                        <div style="display: flex; flex-direction: column;" class="mb-2">
+                                        @if($post->image !== null)
+                                            <img style="width:25%; " src="{{ Storage::url('public/'.$post->image) }}" class="img-thumbnail mb-2"/>
+                                        @else
+                                        @endif    
+                                            <small> Created at {{$post->created_at}} </small>
+                                            <br/><small> Category: {{$post->category}} </small>
+                                        </div>
                                     <a href="{{ route('cp.post.show', $post->id) }}" class="btn btn-success ml-2">View post</a>
                                         </form>
                                     </div>
@@ -50,6 +64,16 @@
                             </div>
                         </div>
                         @endforeach
+
+                        @if (count($posts) < 1)
+                        <div class="form-group row">
+                        <div class="col-md-12">
+                                <center>
+                                    <h1>No posts.</h1>
+                                </center>
+                            </div>      
+                        </div>
+                        @endif
 
                     </form>
                     <div class="container">

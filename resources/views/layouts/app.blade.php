@@ -118,5 +118,15 @@
             @yield('content')
         </main>
     </div>
+    <script>
+
+let getCat = () => {
+    let e = document.getElementById("SelectCategory");
+    let strUser = e.options[e.selectedIndex].text;
+    console.log(strUser);
+}
+
+//document.getElementById("btn-search-select").addEventListener('click', getCat());
+</script>
 </body>
 </html>

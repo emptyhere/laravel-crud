@@ -24,15 +24,21 @@ class CpController extends Controller
 
     public function indexAll(Request $request) {
         $request->user()->authorizeRoles('user');
-        
+        $user = Auth::id();
+        $isShowed = DB::table('show_post_user')->where('user_id', $user)->pluck('post_id');
+        $showedPosts = DB::table('posts')->whereNotIn('id', $isShowed);
+        $getCategories = $showedPosts->pluck('category');
+
         if ($request->get('search') !== null){        
             $search = $request->get('search');
             $posts = DB::table('posts')->where('title', $search)->paginate(5);
             return View::make('indexCpPost', compact('posts', 'search'));
         }
 
-        $posts = Post::paginate(5);
-        return View::make('indexCpPost', compact('posts'));
+        
+        $posts = $showedPosts->paginate(5);
+        //return response()->json($showedPost);
+        return View::make('indexCpPost', compact('posts', 'getCategories'));
     }
 
     public function show(Request $request, $id)
@@ -42,6 +48,7 @@ class CpController extends Controller
         $user = Auth::id();
         $likes = DB::table('post_user')->where('post_id', $post->id)->get()->count();
         $isLiked = DB::table('post_user')->where('post_id', $post->id)->where('user_id', $user)->get()->count();
+        $post->show_users()->syncWithoutDetaching(User::where('id', $user)->first());
         View::share('likes', $likes);
         View::share('isLiked', $isLiked);
         return view('showCpPost')->withPost($post);
@@ -56,7 +63,6 @@ class CpController extends Controller
         $post->users()->attach(User::where('id', $userId)->first());
         return back();
     }
-
 
     public function destroy(Request $request, $id) {
         $request->user()->authorizeRoles('user');

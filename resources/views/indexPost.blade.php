@@ -41,8 +41,14 @@
                              <h1>{{ $post->title }}</h1>
                                 <div> 
                                     <h4>{{ $post->description }}</h4>
-                                    <small> Created at {{$post->created_at}} </small>
-                                    <br/><small> Category: {{$post->category}} </small>
+                                        <div style="display: flex; flex-direction: column;" class="mb-2">
+                                        @if($post->image !== null)
+                                            <img style="width:25%; " src="{{ Storage::url('public/'.$post->image) }}" class="img-thumbnail mb-2"/>
+                                        @else
+                                        @endif    
+                                            <small> Created at {{$post->created_at}} </small>
+                                            <br/><small> Category: {{$post->category}} </small>
+                                        </div>
                                     <form action="{{ route('admin.post.delete', $post->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')

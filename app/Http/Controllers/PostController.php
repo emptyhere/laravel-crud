@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 use App\Post;
+use App\User;
 use View;
+use Image;
+use Storage;
 use Illuminate\Http\Request;
 use DB;
 
@@ -38,7 +41,31 @@ class PostController extends Controller
 
     public function store(Request $request) {
         $request->user()->authorizeRoles(['admin']);
-        $post = Post::create($request->all());
+
+        $this->validate($request, [
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->category = $request->category;
+
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image)->encode('jpg', 75);
+            Storage::put($filename, $img);
+            Storage::move($filename, 'public/' . $filename);
+            $post->image = $filename;
+            $post->save();
+            return redirect('admin/post');
+        } 
+
+        $post->save();
+        
+        //$post = Post::create($request->all());
+        //return response()->json($post);
         return redirect('admin/post');
     }
 
@@ -59,8 +86,28 @@ class PostController extends Controller
     {
         $request->user()->authorizeRoles('admin');
         $post = Post::find($id);  
-        $post->fill($request->all());
-        $post->save();
+
+        $this->validate($request, [
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $post->title = $request->title;
+        $post->description = $request->description;
+        $post->category = $request->category;
+
+        if($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $img = Image::make($image)->encode('jpg', 75);
+            Storage::put($filename, $img);
+            Storage::move($filename, 'public/' . $filename);
+            $post->image = $filename;
+            $post->update();
+
+            return redirect('admin/post/'.$id.'/edit');
+        } 
+
+        $post->update();
         return redirect('admin/post/'.$id.'/edit');
     }
 

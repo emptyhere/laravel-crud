@@ -47,6 +47,11 @@ class User extends Authenticatable
       return $this->belongsToMany(Post::class);
     }
 
+    public function show_posts()
+    {
+    return $this->belongsToMany('App\Post', 'show_post_user');
+    }
+
     /*** @param string|array $roles*/
 
     public function authorizeRoles($roles){  

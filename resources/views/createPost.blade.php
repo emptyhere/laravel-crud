@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Create post') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('admin.post.store') }}">
+                    <form method="POST" action="{{ route('admin.post.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -52,6 +52,14 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <div class="form-group" class="col-md-6" style="margin-left: auto; margin-right: auto;">
+                                    <label for="image">Image</label>
+                                    <input type="file" class="form-control-file" id="image" name="image">
+                            </div>
+                        </div>
+
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
