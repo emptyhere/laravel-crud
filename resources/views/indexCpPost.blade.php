@@ -65,17 +65,6 @@
                         </div>
                         @endforeach
 
-                        @if (count($posts) < 1)
-                        <div class="form-group row">
-                        <div class="col-md-12">
-                                <center>
-                                    <h1>No posts.</h1>
-                                </center>
-                            </div>      
-                        </div>
-                        @endif
-
-                    </form>
                     <div class="container">
                         <div class="row">
                             <div class="pagination">
