@@ -27,17 +27,17 @@ class CpController extends Controller
         $user = Auth::id();
         $isShowed = DB::table('show_post_user')->where('user_id', $user)->pluck('post_id');
         $showedPosts = DB::table('posts')->whereNotIn('id', $isShowed);
-        $getCategories = $showedPosts->pluck('category');
-
+        $getCategories = $showedPosts->get()->unique('category')->pluck('category');
+        //return dd($getCategories);
+        
         if ($request->get('search') !== null){        
             $search = $request->get('search');
-            $posts = DB::table('posts')->where('title', $search)->paginate(5);
-            return View::make('indexCpPost', compact('posts', 'search'));
+            $posts = DB::table('posts')->where('category', $search)->paginate(5);
+            return View::make('indexCpPost', compact('posts', 'search', 'getCategories'));
         }
 
-        
         $posts = $showedPosts->paginate(5);
-        //return response()->json($showedPost);
+        //return response()->json($request->input('search'));
         return View::make('indexCpPost', compact('posts', 'getCategories'));
     }
 

@@ -15,7 +15,10 @@
                                     <div class="mt-2">
                                         @if($isLiked)
                                         <div style="display: flex; flex-direction: column;" class="mb-2">
+                                        @if($post->image !== null)
                                             <img style="width:50%; " src="{{ Storage::url('public/'.$post->image) }}" class="img-thumbnail mb-2"/>
+                                        @else
+                                        @endif  
                                             <small> Created at {{$post->created_at}} </small>
                                             <br/><small> Category: {{$post->category}} </small>
                                         </div>

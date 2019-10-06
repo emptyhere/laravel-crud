@@ -12,7 +12,6 @@
                              <h1>{{ $post->title }}</h1>
                                 <div> 
                                     <h4>{{ $post->description }}</h4>
-                                    <small> Created at {{$post->created_at}} </small>
                                     <div class="mt-2">
                                     <div style="display: flex; flex-direction: column;" class="mb-2">
                                         @if($post->image !== null)

@@ -12,9 +12,9 @@
                         @csrf
                             <div class="form-group">
 
-                                    <select class="form-control form-control-sm mt-2" id="SelectCategory">
+                                    <select class="form-control form-control-sm mt-2" id="search" name="search">
                                         @foreach ($getCategories as $cat)
-                                            <option name="search">{{ $cat }}</option>
+                                            <option value="{{ $cat }}">{{ $cat }}</option>
                                         @endforeach
                                     </select>
 

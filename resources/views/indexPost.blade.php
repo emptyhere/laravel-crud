@@ -48,6 +48,8 @@
                                         @endif    
                                             <small> Created at {{$post->created_at}} </small>
                                             <br/><small> Category: {{$post->category}} </small>
+                                            <br/><small> Likes: {{DB::table('post_user')->where('post_id', $post->id)->get()->count()}}</small>
+                                            <br/><small> Showes: {{DB::table('show_post_user')->where('post_id', $post->id)->get()->count()}} </small>
                                         </div>
                                     <form action="{{ route('admin.post.delete', $post->id) }}" method="POST">
                                         @csrf

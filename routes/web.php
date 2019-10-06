@@ -17,10 +17,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('isActive');
 //Route::get('/sendemail/{id}', 'UserController@sendEmail');
 
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->middleware('isActive')->group(function () {
 
             Route::get('post/all', 'PostController@indexAll')->name('allPosts');
             Route::get('user/all', 'UserController@indexAll')->name('allUsers');
@@ -55,7 +55,7 @@ Route::get('/home', 'HomeController@index')->name('home');
     });
 
 
-    Route::prefix('cp')->group(function () {
+    Route::prefix('cp')->middleware('isActive')->group(function () {
         Route::get('post/all', 'CpController@indexAll')->name('allCpPosts');
         Route::get('post/like/{id}', 'CpController@like')->name('cpLike');
 
