@@ -15,7 +15,7 @@
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
         "nesbot/carbon": "^2.25",
-        "gd": "*"
+        "ext-gd": "*"
     },
     "require-dev": {
         "facade/ignition": "^1.4",
