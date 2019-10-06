@@ -27,7 +27,8 @@ class UserController extends Controller
             $usersId = DB::table('role_user')->where('role_id', '1')->pluck('user_id');
             $users = User::whereIn('id', $usersId);
             $search = $request->get('search');
-            $posts = $users->where('name', $search)->orWhere('email', $search)
+            $posts = $users->where('name', 'like', '%' .  $search)
+            ->orWhere('email', 'like', '%' . $search)
             ->paginate(5);
             return View::make('indexUser', compact('posts', 'search'));
         }

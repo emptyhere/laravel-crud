@@ -25,8 +25,9 @@ class PostController extends Controller
 
         if ($request->get('search') !== null){        
             $search = $request->get('search');
-            $posts = DB::table('posts')->where('title', $search)->orWhere('description', $search)
-            ->orWhere('category', $search)->paginate(5);
+            $posts = DB::table('posts')->where('title', 'like', '%' . $search)
+            ->orWhere('description', 'like', '%' . $search)
+            ->orWhere('category', 'like', '%' . $search)->paginate(5);
             return View::make('indexPost', compact('posts', 'search'));
         }
 
