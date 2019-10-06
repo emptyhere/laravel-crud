@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="image_s" class="col-md-4 col-form-label text-md-right">Image's </label>  
+                            <label for="image_s" class="col-md-4 col-form-label text-md-right">Image's title</label>  
                             <div class="col-md-6">
                                 <input id="image_s" type="text" class="form-control @error('image_s') is-invalid @enderror" value="{{ $post->image }}"
                                  required autocomplete="image_s" readonly>

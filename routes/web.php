@@ -25,6 +25,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('isActive'
             Route::get('post/all', 'PostController@indexAll')->name('allPosts');
             Route::get('user/all', 'UserController@indexAll')->name('allUsers');
             Route::get('superuser/all', 'AdminController@indexAll')->name('allAdmins');
+            Route::get('post/delimg/{id}', 'PostController@destroyImg')->name('destroyImg');
             Route::resource('post', 'PostController', 
             ['names' => [
                 'index' => 'admin.post.index',
